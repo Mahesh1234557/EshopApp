@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    .card{
+        border-radius:0px;
+    }
+    .box:hover {
+        box-shadow: 1px 2px 9px rgb(0 0 0 / 30%);
+    }
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-3">
+        <br><br>
+        <i class="fa fa-chevron-left" aria-hidden="true"></i><a style="text-decoration:none;" href="/">  Back to Dashboard</a><br><br>
+        {% if wishlist_products %}
+            <h3 class="pseudo_border">Product Wishlist</h3>
+            <br><br>
+            {% for wishlist_product in wishlist_products %}
+                <div class="card mb-3 box" style="height:228px;">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <a href="/product_detail/{{wishlist_product.product_id}}">
+                                <img
+                                    src="{{wishlist_product.product.image.url}}"
+                                    alt="..."
+                                    class="" height="226" width="195"
+                                />
+                            </a>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <div style="float: right;">
+                                    <a href="/remove_wishlist/{{wishlist_product.id}}"><span style="float:right;"><img src="{% static 'images/not-checklist.png' %}" style="height:40px;" /></span></a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="heading-label"><span class="badge badge-info">{{wishlist_product.product.category.name}}</span></label>
+                                </div>
+                                <h5 class="card-title">{{wishlist_product.product.name}}({{wishlist_product.product.quantity}} {{wishlist_product.product.unit_measure.unit}})</h5>
+                                <p>Price: ₹ {{wishlist_product.product.price}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <br><br><br>
+            <center><img src="{% static 'images/empty_wishlist.png' %}" alt="..."></center>
+        {% endif %}
+    </div>
+
+{% endblock %}
